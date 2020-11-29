@@ -8,13 +8,11 @@ public class EyeScript : MonoBehaviour
     public GameObject topLids;
     public GameObject bottomLids;
     public GameObject darkener;
-    public float darkenerValue;
+
     public float step;
 
     public Vector3 topTarget;
     public Vector3 bottomTarget;
-
-    public float distance;
 
     public Slider sleepSlider; //max 255
 
@@ -34,14 +32,14 @@ public class EyeScript : MonoBehaviour
         bottomTarget = new Vector3(bottomLids.transform.position.x, bottomLids.transform.position.y + 10, bottomLids.transform.position.z);
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Debug.Log(step);
         Eyes();
 
         if(topLids.transform.position.y > topLidStart.y)
         {
             topLids.transform.position = topLidStart;
+            bottomLids.transform.position = bottomLidStart;
             sleepSlider.value = 0;
         }
     }
@@ -50,37 +48,10 @@ public class EyeScript : MonoBehaviour
     {
         if (sleepSlider.value < sleepSlider.maxValue)
         {
-            sleepSlider.value += 0.2f;
+            sleepSlider.value += 0.5f;
             darkener.GetComponent<Image>().color = new Color32(0, 0, 0, (byte)sleepSlider.value);
             topLids.transform.position = Vector3.MoveTowards(topLids.transform.position, topTarget, Time.deltaTime);
             bottomLids.transform.position = Vector3.MoveTowards(bottomLids.transform.position, bottomTarget, Time.deltaTime);
         }
     }
-    /*
-    void CloseEyes()
-    {
-        step = 1 * Time.deltaTime;
-        topLids.transform.position = Vector3.MoveTowards(topLids.transform.position, topTarget, step);
-        bottomLids.transform.position = Vector3.MoveTowards(bottomLids.transform.position, bottomTarget, step);
-
-        distance = Vector3.Distance(topLids.transform.position, bottomLids.transform.position);
-        darkenerValue += distance / 16;
-        Debug.Log("darkenervalue: " + darkenerValue);
-        Debug.Log("distance divided: " + distance / 16);
-        darkener.GetComponent<Image>().color = new Color32(0, 0, 0, (byte)darkenerValue);
-        sleepSlider.value = darkenerValue;
-    }
-
-    void OpenEyes()
-    {
-        step = 1 * Time.deltaTime;
-        topLids.transform.position = -Vector3.MoveTowards(topLids.transform.position, topTarget, step);
-        bottomLids.transform.position = -Vector3.MoveTowards(bottomLids.transform.position, bottomTarget, step);
-
-        distance = -Vector3.Distance(topLids.transform.position, bottomLids.transform.position);
-        darkenerValue -= distance / 16;
-        darkener.GetComponent<Image>().color = new Color32(0, 0, 0, (byte)darkenerValue);
-        sleepSlider.value = darkenerValue;
-    }
-    */
 }

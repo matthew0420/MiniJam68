@@ -41,10 +41,15 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.tag == "Coffee")
         {
-            eyeScript.sleepSlider.value -= 50f;
-            eyeScript.topLids.transform.position = new Vector3(eyeScript.topLids.transform.position.x, eyeScript.topLids.transform.position.y + 1.2f, eyeScript.topLids.transform.position.z);
-            eyeScript.bottomLids.transform.position = new Vector3(eyeScript.bottomLids.transform.position.x, eyeScript.bottomLids.transform.position.y - 1.2f, eyeScript.bottomLids.transform.position.z);
+            eyeScript.sleepSlider.value -= 37.5f;
+            eyeScript.topLids.transform.position = new Vector3(eyeScript.topLids.transform.position.x, eyeScript.topLids.transform.position.y + 1.65f, eyeScript.topLids.transform.position.z);
+            eyeScript.bottomLids.transform.position = new Vector3(eyeScript.bottomLids.transform.position.x, eyeScript.bottomLids.transform.position.y - 1.65f, eyeScript.bottomLids.transform.position.z);
             Destroy(collision.gameObject);
+        }
+
+        if(collision.gameObject.tag == "Door")
+        {
+            collision.gameObject.GetComponent<SceneManagerScript>().LoadAScene();
         }
     }
 
