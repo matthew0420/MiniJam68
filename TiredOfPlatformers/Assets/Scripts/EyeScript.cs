@@ -36,11 +36,16 @@ public class EyeScript : MonoBehaviour
     {
         Eyes();
 
-        if(topLids.transform.position.y > topLidStart.y)
+        if (topLids.transform.position.y > topLidStart.y)
         {
             topLids.transform.position = topLidStart;
             bottomLids.transform.position = bottomLidStart;
             sleepSlider.value = 0;
+        }
+
+        if (sleepSlider.value >= 255)
+        {
+            GameObject.Find("DeathPit").GetComponent<SceneManagerScript>().LoadAScene();
         }
     }
 

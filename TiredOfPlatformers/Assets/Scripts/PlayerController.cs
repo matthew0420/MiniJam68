@@ -25,6 +25,10 @@ public class PlayerController : MonoBehaviour
 
     public EyeScript eyeScript;
 
+    public AudioSource audioSource;
+    public AudioClip jumpClip;
+    public AudioClip pickUpClip;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,15 +43,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Coffee")
+        if (collision.gameObject.tag == "Coffee")
         {
+            audioSource.PlayOneShot(pickUpClip, 0.12f);
             eyeScript.sleepSlider.value -= 37.5f;
             eyeScript.topLids.transform.position = new Vector3(eyeScript.topLids.transform.position.x, eyeScript.topLids.transform.position.y + 1.65f, eyeScript.topLids.transform.position.z);
             eyeScript.bottomLids.transform.position = new Vector3(eyeScript.bottomLids.transform.position.x, eyeScript.bottomLids.transform.position.y - 1.65f, eyeScript.bottomLids.transform.position.z);
             Destroy(collision.gameObject);
         }
 
-        if(collision.gameObject.tag == "Door")
+        if (collision.gameObject.tag == "Door")
         {
             collision.gameObject.GetComponent<SceneManagerScript>().LoadAScene();
         }
@@ -68,17 +73,18 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = new Vector3(0, 0, 0);
             animator.SetBool("isMoving", true);
         }
-        if(rb.velocity.x == 0)
+        if (rb.velocity.x == 0)
         {
             animator.SetBool("isMoving", false);
         }
     }
-    
+
     void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || Time.time - lastTimeGrounded <= rememberGroundedFor))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            audioSource.PlayOneShot(jumpClip, 0.1f);
         }
 
         if (rb.velocity.y < 0)
